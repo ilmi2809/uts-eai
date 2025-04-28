@@ -69,7 +69,6 @@
     </div>
 
     <script>
-        // Sample user data
         const users = [
             { id: 1, name: "Ahmad Alifi", email: "alifi@mail.com" },
             { id: 2, name: "Anesta Meina Nestiandi", email: "anes@mail.com" },
@@ -78,7 +77,6 @@
             { id: 5, name: "Yesitra Anugrah Auliya", email: "yesitra@mail.com" }
         ];
         
-        // Display users
         function displayUsers() {
             const userList = document.getElementById('userList');
             userList.innerHTML = '';
@@ -95,7 +93,6 @@
             });
         }
         
-        // Consumer function - Get orders from OrderService
         async function getUserOrders() {
             const userId = document.getElementById('userId').value;
             if (!userId) {
@@ -110,7 +107,6 @@
                 document.getElementById('ordersList').innerHTML = 
                     `<p>Fetching orders from: ${endpoint}</p>`;
                 
-                // Sample order data - in real application, this would come from OrderService
                 const orders = [
                     { id: 101, userId: 1, productId: 1, quantity: 2, date: "2025-04-27" },
                     { id: 102, userId: 1, productId: 3, quantity: 1, date: "2025-04-28" },
@@ -144,7 +140,6 @@
             }
         }
         
-        // Initialize page
         window.onload = function() {
             displayUsers();
         };

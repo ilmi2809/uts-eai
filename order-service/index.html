@@ -102,13 +102,11 @@
     </div>
 
     <script>
-        // Sample order data
         let orders = [
             { id: 101, userId: 1, productId: 1, quantity: 2, date: "2025-04-27" },
             { id: 102, userId: 2, productId: 3, quantity: 1, date: "2025-04-28" }
         ];
         
-        // Display orders
         function displayOrders() {
             const orderList = document.getElementById('orderList');
             orderList.innerHTML = '';
@@ -132,7 +130,6 @@
             });
         }
         
-        // Consumer function - Get user details from UserService
         async function fetchUserDetails() {
             const userId = document.getElementById('orderUserId').value;
             if (!userId) {
@@ -147,7 +144,6 @@
                 document.getElementById('userDetails').innerHTML = 
                     `<p>Fetching user details from: ${endpoint}</p>`;
                 
-                // Sample user data
                 const users = [
                     { id: 1, name: "Ahmad Alifi", email: "alifi@mail.com" },
                     { id: 2, name: "Anesta Meina Nestiandi", email: "anes@mail.com" },
@@ -174,7 +170,6 @@
             }
         }
         
-        // Consumer function - Get product details from ProductService
         async function fetchProductDetails() {
             const productId = document.getElementById('orderProductId').value;
             if (!productId) {
@@ -189,7 +184,6 @@
                 document.getElementById('productDetails').innerHTML = 
                     `<p>Fetching product details from: ${endpoint}</p>`;
                 
-                // Sample product data
                 const products = [
                     { id: 1, name: "Smartphone", price: 799.99, inventory: 50 },
                     { id: 2, name: "Laptop", price: 1299.99, inventory: 25 },
@@ -215,7 +209,6 @@
             }
         }
         
-        // Provider function - Create a new order
         async function createOrder() {
             const userId = document.getElementById('orderUserId').value;
             const productId = document.getElementById('orderProductId').value;
@@ -227,7 +220,6 @@
             }
             
             try {
-                // Sample user data
                 const users = [
                     { id: 1, name: "Ahmad Alifi", email: "alifi@mail.com" },
                     { id: 2, name: "Anesta Meina Nestiandi", email: "anes@mail.com" },
@@ -244,7 +236,6 @@
                     return;
                 }
                 
-                // Sample product data
                 const products = [
                     { id: 1, name: "Smartphone", price: 799.99, inventory: 50 },
                     { id: 2, name: "Laptop", price: 1299.99, inventory: 25 },
@@ -266,7 +257,6 @@
                     return;
                 }
                 
-                // Create new order
                 const today = new Date();
                 const dateStr = today.toISOString().split('T')[0];
                 
@@ -278,10 +268,8 @@
                     date: dateStr
                 };
                 
-                // Add to orders
                 orders.push(newOrder);
                 
-                // Display success message
                 document.getElementById('orderResult').innerHTML = `
                     <div class="success">
                         <p><strong>Order Created Successfully!</strong></p>
@@ -294,10 +282,8 @@
                     </div>
                 `;
                 
-                // Refresh orders list
                 displayOrders();
                 
-                // Clear form fields
                 document.getElementById('orderProductId').value = '';
                 document.getElementById('orderQuantity').value = '1';
                 document.getElementById('productDetails').innerHTML = '';
@@ -308,7 +294,6 @@
             }
         }
         
-        // Initialize page
         window.onload = function() {
             displayOrders();
         };
