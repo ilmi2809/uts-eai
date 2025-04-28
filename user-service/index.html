@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #0066cc;
+            margin-top: 20px;
+        }
+        .box {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Service (Port 8081)</h1>
+        
+        <h2>Consumer: Order History</h2>
+        <div class="box">
+            <p><strong>Consumes from:</strong> OrderService (GET /api/orders/user/:userId)</p>
+            <div>
+                <input type="text" id="userId" placeholder="Enter User ID">
+                <button onclick="getUserOrders()">Get User Orders</button>
+            </div>
+        </div>
+        
+        <h2>User Orders</h2>
+        <div id="ordersList"></div>
+        
+        <h2>User Database</h2>
+        <div id="userList"></div>
+    </div>
+
+    <script>
+        // Sample user data
+        const users = [
+            { id: 1, name: "Ahmad Alifi", email: "alifi@mail.com" },
+            { id: 2, name: "Anesta Meina Nestiandi", email: "anes@mail.com" },
+            { id: 3, name: "Ilmi Syahbana Hasanudin", email: "ilmi@mail.com" },
+            { id: 4, name: "Mikha Abigail Natannoah Pohan", email: "mikha@mail.com" },
+            { id: 5, name: "Yesitra Anugrah Auliya", email: "yesitra@mail.com" }
+        ];
+        
+        // Display users
+        function displayUsers() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+            
+            users.forEach(user => {
+                const userBox = document.createElement('div');
+                userBox.className = 'box';
+                userBox.innerHTML = `
+                    <p><strong>ID:</strong> ${user.id}</p>
+                    <p><strong>Name:</strong> ${user.name}</p>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                `;
+                userList.appendChild(userBox);
+            });
+        }
+        
+        // Consumer function - Get orders from OrderService
+        async function getUserOrders() {
+            const userId = document.getElementById('userId').value;
+            if (!userId) {
+                alert('Please enter a user ID');
+                return;
+            }
+            
+            try {
+                const orderServicePort = 8083;
+                const endpoint = `http://localhost:${orderServicePort}/api/orders/user/${userId}`;
+                
+                document.getElementById('ordersList').innerHTML = 
+                    `<p>Fetching orders from: ${endpoint}</p>`;
+                
+                // Sample order data - in real application, this would come from OrderService
+                const orders = [
+                    { id: 101, userId: 1, productId: 1, quantity: 2, date: "2025-04-27" },
+                    { id: 102, userId: 1, productId: 3, quantity: 1, date: "2025-04-28" },
+                    { id: 103, userId: 2, productId: 2, quantity: 3, date: "2025-04-26" },
+                    { id: 104, userId: 3, productId: 4, quantity: 1, date: "2025-04-28" }
+                ].filter(order => order.userId === parseInt(userId));
+                
+                const ordersList = document.getElementById('ordersList');
+                
+                if (orders.length === 0) {
+                    ordersList.innerHTML = `<p>No orders found for user ID ${userId}</p>`;
+                    return;
+                }
+                
+                ordersList.innerHTML = '';
+                orders.forEach(order => {
+                    const orderItem = document.createElement('div');
+                    orderItem.className = 'box';
+                    orderItem.innerHTML = `
+                        <p><strong>Order ID:</strong> ${order.id}</p>
+                        <p><strong>Product ID:</strong> ${order.productId}</p>
+                        <p><strong>Quantity:</strong> ${order.quantity}</p>
+                        <p><strong>Date:</strong> ${order.date}</p>
+                    `;
+                    ordersList.appendChild(orderItem);
+                });
+                
+            } catch (error) {
+                document.getElementById('ordersList').innerHTML = 
+                    `<p>Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Initialize page
+        window.onload = function() {
+            displayUsers();
+        };
+    </script>
+</body>
+</html>
